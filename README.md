@@ -1,2 +1,2 @@
 # python_template
-template project
+just a basic template for setting up new python projects
