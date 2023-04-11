@@ -8,7 +8,7 @@ def run():
 
     # find the base path and set path to python binary
     base_path = Path(__file__).parent
-    python_bin = f"{base_path}/venv/Scripts/python"
+    python_bin = f"{base_path}/venv/Scripts/python" if os.name == 'nt' else f"{base_path}/venv/bin/python3"
 
     cmd = f"{python_bin} app.py"
     process = subprocess.Popen(cmd, shell=True) 
