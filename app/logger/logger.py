@@ -6,7 +6,7 @@ import inspect
 
 class Logger(logging.Logger):
 
-    def __init__(self, name=None, backupCount=5, output_to_cli=False):
+    def __init__(self, name=None, backupCount=5, output_to_cli=True, log_level='info'):
         
         if name == None:
             self.name = Path(inspect.currentframe().f_back.f_code.co_filename).stem
@@ -23,6 +23,14 @@ class Logger(logging.Logger):
         self.file_path = f"{self.log_dir}/{self.file_name}"
         self.formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
         self.addHandler(self.file_handler())
+        level_map = {
+            'CRITICAL': logging.CRITICAL,
+            'ERROR': logging.ERROR,
+            'WARNING': logging.WARNING,
+            'INFO': logging.INFO,
+            'DEBUG': logging.DEBUG
+        }      
+        self.level = level_map[log_level.upper()]
 
         if output_to_cli:
             self.addHandler(self.stream_handler())
@@ -44,7 +52,16 @@ class Logger(logging.Logger):
     def assert_directory(self):
         os.makedirs(self.log_dir, exist_ok=True)
     
-
+    def set_log_level(self):
+        level_map = {
+            'CRITICAL': logging.CRITICAL,
+            'ERROR': logging.ERROR,
+            'WARNING': logging.WARNING,
+            'INFO': logging.INFO,
+            'DEBUG': logging.DEBUG
+        }        
+        self.level = self.level_map[self.log_level.upper()]
+    
 if __name__ == '__main__':
     
     logger = Logger()
